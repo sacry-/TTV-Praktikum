@@ -1,0 +1,35 @@
+### Projektschritt 1: Laboreinbindung von Gateways und Sensorknoten
+
+In RFC 6775 (3.3) Host-to-Router Interaction:
+
+
+1. A host sends Router Solicitation messages
+
+Message: "1","0.000000000","fe80::d1c1:6d7f:ab6e:1336","ff02::2","ICMPv6","80","Router Solicitation from d3:c1:6d:7f:ab:6e:13:36"
+
+Source: fe80::d1c1:6d7f:ab6e:1336
+Info: Router Solicitation from d3:c1:6d:7f:ab:6e:13:36
+Time: 0
+
+2. Hosts receive Router Advertisement messages
+
+Message: "2","0.000707000","fe80::1ac0:ffee:c0ff:ee16","fe80::d1c1:6d7f:ab6e:1336","ICMPv6","144","Router Advertisement from 18:c0:ff:ee:c0:ff:ee:16"
+
+Source: fe80::1ac0:ffee:c0ff:ee16"
+Info: Router Advertisement from 18:c0:ff:ee:c0:ff:ee:16
+Time: 0.000707sec
+
+3. The re-registration of an address can be combined with Neighbor Unreachability Detection (NUD) of the router, since both use unicast
+Neighbor Solicitation messages
+
+Message: "3","0.013840000","fd16:abcd:ef16:3:d1c1:6d7f:ab6e:1336","fe80::1ac0:ffee:c0ff:ee16","ICMPv6","112","Neighbor Solicitation for fe80::1ac0:ffee:c0ff:ee16 from d3:c1:6d:7f:ab:6e:13:36"
+
+Source: fd16:abcd:ef16:3:d1c1:6d7f:ab6e:1336
+Info: Neighbor Solicitation for fe80::1ac0:ffee:c0ff:ee16 from d3:c1:6d:7f:ab:6e:13:36
+Time: 0.01384sec
+
+Scheint Korrekt zu sein.
+
+
+### Projektschritt 2: RPL Routing im Labornetz
+
