@@ -6,7 +6,7 @@ set -e
 # RPI: FD16:ABCD:EF16:2::1
 
 
-# Main
+# Host
 sudo /sbin/ifconfig p4p1 up
 sudo /sbin/ifconfig p4p1 inet6 add fd16:abcd:ef16:0002::0002/64
 sudo ip route add fd16:abcd:ef16:3::/64 via fd16:abcd:ef16:2::1

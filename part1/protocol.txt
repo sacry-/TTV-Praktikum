@@ -33,3 +33,11 @@ Scheint Korrekt zu sein.
 
 ### Projektschritt 2: RPL Routing im Labornetz
 
+Welche Nachrichten und Informationen werden zwischen den RPL-Knoten ausgetauscht. Wie
+prüft RPL dabei die Symmetrie vorhandener Links und wählt geeignete Routen aus?
+
+
+### Projektschritt 3: Datenverteilung und Messung
+
+
+
