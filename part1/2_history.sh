@@ -2,6 +2,8 @@
 
 set -e
 
+# Password Rasperry: TTvSprak
+
 # Hop-Metrik
 # RPL Root (rank-0)
 # 2 nodes (rank-1)

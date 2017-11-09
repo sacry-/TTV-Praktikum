@@ -2,6 +2,8 @@
 
 set -e
 
+# Password Rasperry: TTvSprak
+
 # Sensor via RPI: fd16:abcd:$rasperry:3:D1C1:6D7F:AB6E:1336
 # RPI: FD16:ABCD:$rasperry:2::1
 

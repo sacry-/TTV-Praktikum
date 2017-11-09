@@ -2,6 +2,8 @@
 
 set -e
 
+# Password Rasperry: TTvSprak
+
 rasperry=ef07
 if [[ -n "$1" ]]; then
   rasperry="$1"
