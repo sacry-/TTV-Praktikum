@@ -9,8 +9,10 @@ if [[ -n "$1" ]]; then
   rasperry="$1"
 fi
 
-iotsensor="6d7f:ab6e"
-
+iotsensor="6d48:ab50"
+if [[ -n "$2" ]]; then
+  iotsensor="$2"
+fi
 
 ssh pi@FD16:ABCD:$rasperry:2::1
 # Session:
