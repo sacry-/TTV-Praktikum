@@ -1,0 +1,86 @@
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage[ngerman]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{graphicx}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+\newcommand {\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title {
+  \normalfont \normalsize
+  \textsc{HAW Hamburg} \\ [25pt] % Your university, school and/or department name(s)
+  \textsc{Technik und Technologie von vernetzer Systeme} \\ [15pt]
+  \horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+  \huge LoWPAN Networking im IoT \\ [15pt] % The assignment title
+  \small Prof. Dr. Fohl \\
+  \horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Fabien Lapok, Matthias Nitsche}
+
+\date{\normalsize\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Aufgabe 1 - Laboreinbindung von Gateways und Sensorknoten}
+
+Formulas...
+
+\begin{align}
+  y' &= 10 - 500 \cdot y + 5000 \cdot x
+  y(0) &= 1
+\end{align}
+
+Text...
+
+\subsection{Subsektion 1}
+
+Some text...
+
+\includegraphics[width=\linewidth]{imgs/cat.jpg}
+
+Some text...
+
+\begin{align}
+  y_{n+1} &=  y_n + h \cdot (10 - 500 \cdot y_n + 5000 \cdot x_n) \\
+  x_{n+1} &= x_n + h
+\end{align}
+
+\section{Aufgabe 2 - RPL Routing im Labornetz}
+
+Some text...
+
+\includegraphics[width=\linewidth]{imgs/cat.jpg}
+
+\section{Aufgabe 3 - Datenverteilung und Messung}
+
+Some text...
+
+\includegraphics[width=\linewidth]{imgs/cat.jpg}
+
+\end{document}
+
