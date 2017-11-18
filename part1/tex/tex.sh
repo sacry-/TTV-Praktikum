@@ -26,6 +26,7 @@ function run {
 
   clear_tex $fname
   texify $fname
+  texify $fname
   clear_tex $fname
   open $fname.pdf
 
