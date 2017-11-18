@@ -6,6 +6,7 @@
 \usepackage{amsmath,amsfonts,amsthm} % Math packages
 
 \usepackage{graphicx}
+\usepackage{float}
 
 \usepackage{sectsty} % Allows customizing section commands
 \allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
@@ -50,18 +51,26 @@
 
 Nach dem Aufsetzen von Szenario 1 haben wir mit Wireshark - siehe Abbildung \ref{fig:hrwireshark} - die Neighbor Discovery von Host zu Router mitgeschnitten.
 
-\begin{figure}[ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{imgs/host-to-router-interaction-wireshark.png}
   \caption{Host zu Router Interaktion Wireshark Mitschnitt}
   \label{fig:hrwireshark}
 \end{figure}
 
-Der Ablauf des Protokolls ist detailliert in RFC 6775 ``''Neighbor Discovery Optimization``'' unter Host-to-Router interaction beschrieben.
+Der Ablauf des Protokolls ist detailliert in RFC 6775 ``''Neighbor Discovery Optimization``'' unter Host-to-Router interaction beschrieben. In Abbildung \ref{fig:hrfluss} ist ein Flussdiagramm was den Austausch vom Raspberry Pi (RPI) als Rouer zum Sensor als Host beschreibt.
+\\
+\\
+Die ersten 4 Schritte laufen Ordnungsgemäß wie in RFC 6775 ab. Sensor fragt nach Router ``Router Solicitation'', RPI antwortet ``Router Advertisment'', Sensor fragt Router nach der Nachbarschaft ``Neighbor Solicitation'' und RPI antwortet mit ``Neighbor Advertisement''. Nach 5 Sekunden wird die Nachbarschaftsanfrage erneut gesendet.
 
-\includegraphics[width=\linewidth]{imgs/host-to-router-interaction.png}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth,height=0.7\columnwidth]{imgs/host-to-router-interaction.png}
+  \caption{Host zu Router Interaktion Flussdiagramm}
+  \label{fig:hrfluss}
+\end{figure}
 
-Some text...
+Uns sind keine Auffälligkeiten im Vergleich zum RFC 6775 aufgefallen.
 
 \section{Aufgabe - RPL Routing im Labornetz}
 
