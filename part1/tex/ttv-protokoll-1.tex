@@ -74,7 +74,21 @@ Uns sind keine Auffälligkeiten im Vergleich zum RFC 6775 aufgefallen.
 
 \section{Aufgabe - RPL Routing im Labornetz}
 
-Some text...
+(Welche Nachrichten und Informationen werden zwischen den RPL-Knoten ausgetauscht.)
+
+Nach dem Aufbau des zweiten Szenarios wurde mithilfe eines Wiresharkmitschnittes der Informationsaustausch zwischen den RPL-Knoten analysiert. Folgende Pakettypen haben sich rauskristalisiert:
+\begin{enumerate}
+  \item DODAG Information Solicitation (DIS)
+  Das DIS Objekt wird beispielsweise initial von einem Knoten verwendet um einem DODAG beizutreten. Analog zur Neighbor Solicitation (6775) kann das DIS verwendet werden um die umliegenden DODAG Knoten zu identifizieren.
+  \item DODAG Information Object (DIO)
+  Das DIO hält Informationen die es dem Knoten ermöglicht RPL-Infrastruktur aufzudecken, Konfigurationsparameter zu erhalten und sein DODAG-Parent zu setzen.
+  \item DODAG advertisement Object (DAO)
+  Das DAO wird vom Kindknoten verwendet um Zielinformationen im Aufwärts im DODAG zu verteilen. Beispielsweise als request zum Beitreten des DODAGs.
+  \item DAO-ACK
+  Der Empfänger eines DAO sended dem Sender ein DAO-ACK als bestätigung.
+\end{enumerate}
+
+Mithilfe der durch die Nachrichten bekanntgegebenen Struktur kann ein Graph aufgebaut werden, der es ermöglicht Nachrichten im Netz zu verteilen. In der Regel hat jeder Knoten einen Parent-Knoten, an den er seine Nachrichten weiterleitet. Ein Parent weiß dabei nichts von seinen Kindern, bis diese sich bei ihm melden. Der Parent-Knoten erfährt außerdem aus der DAO-Nachricht des Kind-Knoten, welche weiteren Knoten über das Kind erreichbar sind.
 
 \section{Aufgabe - Datenverteilung und Messung}
 
@@ -107,4 +121,3 @@ Sendedauer text..
 \end{figure}
 
 \end{document}
-
