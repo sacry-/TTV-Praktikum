@@ -92,21 +92,19 @@ Mithilfe der durch die Nachrichten bekanntgegebenen Struktur kann ein Graph aufg
 
 \section{Aufgabe - Datenverteilung und Messung}
 
-Im folgenden machen wir mittels COAP, HTTP ähnliche Anfragen um die REST Ressourcen auf den (RIOT) Sensoren auszulesen. Wir haben die ``led'' mittels ``PUT 1'' und ``PUT 0'' an verschiedenen Rechnern an und ausgeschaltet sowie ``temperature'' und ``humidity'' ausgelesen. Wie zuvor wurde die Kommunikation über Wireshark aufgezeichnet.
+Im folgenden machen wir mittels COAP, HTTP ähnliche Anfragen um die REST Ressourcen auf den (RIOT) Sensoren auszulesen. Wir haben die ``led'' mittels ``PUT 1'' und ``PUT 0'' an verschiedenen Rechnern an und ausgeschaltet. Wie zuvor wurde die Kommunikation über Wireshark aufgezeichnet.
 
-\subsection{Messung}
+\subsection{Sendedauer}
 
-Vorgehen?... haha .. Vorgehen :( - Welche Rechner? Welche Standorte? etc.
-
-\paragraph{Sendedauer}
-
-Sendedauer text..
+Wir saßen in Reihe 3 und haben den RPL Root, Reihe 2, Reihe 3 (uns) und Reihe 4 mittels coap ``put /led 0|1'' angesteuert. Wir haben die einzelnen Sensoren im Durchschnitt 20mal abgerufen. Dabei ist wie in \ref{fig:sendedauer} zu sehen das je weiter wir uns vom Root entfernen die durchschnittliche Sendedauer höher wird. Der Root hat im Durchschnitt in unter 10 Millisekunden geantwortet, während die restlichen Reihen untereinander nur im Nanosekundenbereich zu unterscheiden sind.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\linewidth]{imgs/put-led-response-time.png}
-  \caption{Mittlere Sendedauer (Balken oder Sequenzdiagramm)}
+  \caption{Mittlere Sendedauer in Millisekunden}
   \label{fig:sendedauer}
 \end{figure}
+
+Wir haben des weiteren geplant den Paketverlust eines pings zu den einzelnen Reihen zu messen. Leider wurde der Mittschnitt nicht korrekt aufgezeichnet und wir konnten die Daten nicht verwerten. Ansonsten ist hier die Hypothese, dass je weiter die Reihen vom Root entfernt sind, der Paketverlust ansteigt. Von Reihe 3 zu Reihe 4 also ein höherer Verlust erwartet wird.
 
 \end{document}
