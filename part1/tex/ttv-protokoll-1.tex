@@ -35,7 +35,7 @@
   \textsc{Technik und Technologie von vernetzen Systeme} \\ [15pt]
   \horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
   \huge LoWPAN Networking im IoT \\ [15pt] % The assignment title
-  \small Prof. Dr. Fohl \\
+  \small  Prof. Dr. T. Schmidt \\
   \horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
 }
 
@@ -73,23 +73,18 @@ Die ersten 4 Schritte laufen Ordnungsgemäß wie in RFC 6775 ab. Sensor fragt na
 Uns sind keine Auffälligkeiten im Vergleich zum RFC 6775 aufgefallen.
 
 \section{Aufgabe - RPL Routing im Labornetz}
-
-(Welche Nachrichten und Informationen werden zwischen den RPL-Knoten ausgetauscht.)
-
 Nach dem Aufbau des zweiten Szenarios wurde mithilfe eines Wiresharkmitschnittes der Informationsaustausch zwischen den RPL-Knoten analysiert. Folgende Pakettypen haben sich rauskristalisiert:
 \begin{enumerate}
   \item DODAG Information Solicitation (DIS)
-  Das DIS Objekt wird beispielsweise initial von einem Knoten verwendet um einem DODAG beizutreten. Analog zur Neighbor Solicitation (6775) kann das DIS verwendet werden um die umliegenden DODAG Knoten zu identifizieren.
+  Das DIS Objekt wird beispielsweise initial von einem neuen Knoten verwendet um einem DODAG beizutreten. Analog zur Neighbor Solicitation (RFC 6775) kann das DIS verwendet werden um die umliegenden DODAG Knoten zu identifizieren.
   \item DODAG Information Object (DIO)
   Das DIO hält Informationen die es dem Knoten ermöglicht RPL-Infrastruktur aufzudecken, Konfigurationsparameter zu erhalten und sein DODAG-Parent zu setzen.
   \item DODAG advertisement Object (DAO)
-  Das DAO wird vom Kindknoten verwendet um Zielinformationen im Aufwärts im DODAG zu verteilen. Beispielsweise als request zum Beitreten des DODAGs.
+  Das DAO wird vom Kindknoten verwendet um Zielinformationen aufwärts im DODAG zu verteilen. Beispielsweise als request zum Beitreten des DODAGs.
   \item DAO-ACK
-  Der Empfänger eines DAO sended dem Sender ein DAO-ACK als bestätigung.
+  Der Empfänger eines DAOs bestätigt dem Sender mittels eines DAO-ACK den Empfang eines DAOs.
 \end{enumerate}
-
-Mithilfe der durch die Nachrichten bekanntgegebenen Struktur kann ein Graph aufgebaut werden, der es ermöglicht Nachrichten im Netz zu verteilen. In der Regel hat jeder Knoten einen Parent-Knoten, an den er seine Nachrichten weiterleitet. Ein Parent weiß dabei nichts von seinen Kindern, bis diese sich bei ihm melden. Der Parent-Knoten erfährt außerdem aus der DAO-Nachricht des Kind-Knoten, welche weiteren Knoten über das Kind erreichbar sind.
-
+Die Struktur des DODAG-Graphen kann durch Einsatz der oben genannten Nachrichten aufgebaut werden. Generell haben alle Knoten einen Parent-Knoten, über den die Nachrichten weitergeleitet werden. Der Parent-Knoten wiederum nichts von seinen Kind-Knoten weiß - bis sie sich bei ihm melden. Durch die DAO-Nachrichten eines Kind-Knotens, wird dem Parent-Knoten bekannt gemacht, welche weiteren Knoten über den Kind-Knoten erreichbar sind.
 \section{Aufgabe - Datenverteilung und Messung}
 
 Im folgenden machen wir mittels COAP, HTTP ähnliche Anfragen um die REST Ressourcen auf den (RIOT) Sensoren auszulesen. Wir haben die ``led'' mittels ``PUT 1'' und ``PUT 0'' an verschiedenen Rechnern an und ausgeschaltet. Wie zuvor wurde die Kommunikation über Wireshark aufgezeichnet.
