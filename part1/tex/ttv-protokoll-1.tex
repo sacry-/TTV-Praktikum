@@ -58,7 +58,7 @@ Nach dem Aufsetzen von Szenario 1 haben wir mit Wireshark - siehe Abbildung \ref
   \label{fig:hrwireshark}
 \end{figure}
 
-Der Ablauf des Protokolls ist detailliert in RFC 6775 ``''Neighbor Discovery Optimization``'' unter Host-to-Router interaction beschrieben. In Abbildung \ref{fig:hrfluss} ist ein Flussdiagramm was den Austausch vom Raspberry Pi (RPI) als Rouer zum Sensor als Host beschreibt.
+Der Ablauf des Protokolls ist detailliert in RFC 6775 ``Neighbor Discovery Optimization'' unter Host-to-Router interaction beschrieben. In Abbildung \ref{fig:hrfluss} ist ein Flussdiagramm was den Austausch vom Raspberry Pi (RPI) als Rouer zum Sensor als Host beschreibt.
 \\
 \\
 Die ersten 4 Schritte laufen Ordnungsgemäß wie in RFC 6775 ab. Sensor fragt nach Router ``Router Solicitation'', RPI antwortet ``Router Advertisment'', Sensor fragt Router nach der Nachbarschaft ``Neighbor Solicitation'' und RPI antwortet mit ``Neighbor Advertisement''. Nach 5 Sekunden wird die Nachbarschaftsanfrage erneut gesendet.
@@ -84,7 +84,7 @@ Nach dem Aufbau des zweiten Szenarios wurde mithilfe eines Wiresharkmitschnittes
   \item DAO-ACK
   Der Empfänger eines DAOs bestätigt dem Sender mittels eines DAO-ACK den Empfang eines DAOs.
 \end{enumerate}
-Die Struktur des DODAG-Graphen kann durch Einsatz der oben genannten Nachrichten aufgebaut werden. Generell haben alle Knoten einen Parent-Knoten, über den die Nachrichten weitergeleitet werden. Der Parent-Knoten wiederum nichts von seinen Kind-Knoten weiß - bis sie sich bei ihm melden. Durch die DAO-Nachrichten eines Kind-Knotens, wird dem Parent-Knoten bekannt gemacht, welche weiteren Knoten über den Kind-Knoten erreichbar sind.
+Die Struktur des DODAG-Graphen kann durch Einsatz der oben genannten Nachrichten aufgebaut werden. Generell haben alle Knoten einen Parent-Knoten, über den die Nachrichten weitergeleitet werden. Der Parent-Knoten weiß wiederum nichts von seinen Kind-Knoten - bis sie sich bei ihm melden. Durch die DAO-Nachrichten eines Kind-Knotens, wird dem Parent-Knoten bekannt gemacht, welche weiteren Knoten über den Kind-Knoten erreichbar sind.
 \section{Aufgabe - Datenverteilung und Messung}
 
 Im folgenden machen wir mittels COAP, HTTP ähnliche Anfragen um die REST Ressourcen auf den (RIOT) Sensoren auszulesen. Wir haben die ``led'' mittels ``PUT 1'' und ``PUT 0'' an verschiedenen Rechnern an und ausgeschaltet. Wie zuvor wurde die Kommunikation über Wireshark aufgezeichnet.
