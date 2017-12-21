@@ -30,7 +30,10 @@ package de.uniba.wiai.lspi.chord.service.impl;
 import static de.uniba.wiai.lspi.util.logging.Logger.LogLevel.DEBUG;
 import static de.uniba.wiai.lspi.util.logging.Logger.LogLevel.INFO;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -65,7 +68,7 @@ public final class NodeImpl extends Node {
 	/**
 	 * Reference on local node.
 	 */
-	private ChordImpl impl;
+	private ChordImpl chordImpl;
 
 	/**
 	 * Object logger.
@@ -124,7 +127,7 @@ public final class NodeImpl extends Node {
 
 		this.logger = Logger.getLogger(NodeImpl.class.getName() + "." + nodeID.toString());
 
-		this.impl = impl;
+		this.chordImpl = impl;
 		this.asyncExecutor = impl.getAsyncExecutor();
 		this.nodeID = nodeID;
 		this.nodeURL = nodeURL;
@@ -159,7 +162,7 @@ public final class NodeImpl extends Node {
 	 */
 	@Override
 	public final Node findSuccessor(ID key) {
-		return this.impl.findSuccessor(key);
+		return this.chordImpl.findSuccessor(key);
 	}
 
 	/**
@@ -434,15 +437,77 @@ public final class NodeImpl extends Node {
 			this.logger.debug(" Send broadcast message");
 		}
 		
-		List<Node> nodeList =  this.impl.getFingerTable();
 		
+		this.chordImpl.setLastTransactionId(info.getTransaction());
+		List<Node> lstFingerTable =  this.chordImpl.getFingerTable();
+		Collections.sort(lstFingerTable);
+	
+		List<Node> beforeTable = new ArrayList<Node>();
+		List<Node> afterTable =  new ArrayList<Node>();
 		
+		for(Node n : lstFingerTable) {
+			if(n.compareTo(this)<0) {
+				beforeTable.add(n);
+			}else {
+				afterTable.add(n);
+			}
+		}
+		afterTable.addAll(beforeTable);
+		lstFingerTable = afterTable;
+	
+		Node receiverNode = lstFingerTable.get(0);
 		
+		// remove our node
+		lstFingerTable.remove(0);
+		
+		for(Node nextNode:lstFingerTable) {
+			
+			if(!isCurrInInerval(nextNode,info)) {
+				break;
+			}
+			
+			sendBroadcast(receiverNode, nextNode.getNodeID(), info);
+			receiverNode = nextNode;
+		}
+		
+		if(receiverNode != null && isCurrInInerval(receiverNode, info)) {
+			sendBroadcast(receiverNode, info.getRange(), info);
+		}
 		
 		// finally inform application
 		if (this.notifyCallback != null) {
 			this.notifyCallback.broadcast(info.getSource(), info.getTarget(), info.getHit());
 		}
 	}
+	
+	private boolean isCurrInInerval(Node node, Broadcast info) {
+		
+		return node.getNodeID().isInInterval(this.getNodeID(), info.getRange());
+	}
+	
+	private void sendBroadcast(final Node n, final ID range, final Broadcast bc) {
+		
+			Runnable broadcastRunner = new Runnable() {
+	
+				@Override
+				public void run() {
+					Broadcast b = new Broadcast(range, bc.getSource(),bc.getTarget(),
+							bc.getTransaction(), bc.getHit());
+					try {
+						n.broadcast(b);
+					} catch (CommunicationException e) {
+						// TODO Auto-generated catch block
+						logger.error(e.getMessage());
+					}	
+			}
+		
+		};
+		asyncExecutor.execute(broadcastRunner);
+	}
+	
+	
+	
+	
+	
 
 }

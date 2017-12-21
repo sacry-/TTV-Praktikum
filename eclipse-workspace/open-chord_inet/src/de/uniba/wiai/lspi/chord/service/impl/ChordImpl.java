@@ -1115,9 +1115,11 @@ public final class ChordImpl implements Chord, Report, AsynChord {
 	//send broadcast to all nodes in finger table
 	@Override
 	public void broadcast (ID target, Boolean hit) {
-		this.logger.debug("App called broadcast");
+		this.logger.debug("Sending broadcast target: " + target.toString() + " with hit value: " + hit);
+		
+		
 		Broadcast info = new Broadcast(this.getID(), this.getID(), 
-				target, this.getLastTransactionID(), hit);
+				target, this.getLastTransactionID() + 1, hit);
 		
 		try {
 			localNode.broadcast(info);
@@ -1133,6 +1135,16 @@ public final class ChordImpl implements Chord, Report, AsynChord {
 	
 	private int iLastTransactionId = Integer.MIN_VALUE;
 	
+	public int getLastTransactionId() {
+		return iLastTransactionId;
+	}
+
+	public void setLastTransactionId(int iLastTransactionId) {
+		if(iLastTransactionId > this.iLastTransactionId) {
+			this.iLastTransactionId = iLastTransactionId;
+		}
+	}
+
 	public int getLastTransactionID() {
 		return iLastTransactionId;
 	}
