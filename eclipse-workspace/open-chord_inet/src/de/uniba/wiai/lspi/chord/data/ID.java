@@ -256,6 +256,19 @@ public final class ID implements Comparable<ID>, Serializable {
 	}
 
 	/**
+	 * Returns a string of the decimal representation of this ID, including
+	 * leading zeros.
+	 * 
+	 * @return Decimal string of ID
+	 */
+	public final String toHumanID() {
+		String dec = this.toDecimalString(this.id.length);
+		String[]parts = dec.split(" ");
+		return parts[0];
+	}
+
+	
+	/**
 	 * Returns a string of the binary representation of the first <code>n</code>
 	 * bytes of this ID, including leading zeros.
 	 * 

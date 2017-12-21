@@ -14,21 +14,23 @@ import de.uniba.wiai.lspi.chord.service.PropertiesLoader;
 import de.uniba.wiai.lspi.chord.service.ServiceException;
 import de.uniba.wiai.lspi.chord.service.impl.ChordImpl;
 
-public class App {
-	private static Logger log = Logger.getLogger(App.class);
+public class Main {
+	private static Logger log = Logger.getLogger(Main.class);
 
 	private static Properties prop;
 
 	public static void main(String[] args) {
-		prop = loadLocalProperties();
-		boolean fCreateNetwork = Boolean.valueOf(prop.get("createNetwork").toString());
-
-		Chord chord;
-		if (fCreateNetwork) {
-			chord = createCord(prop.get("localUrl").toString());
-		} else {
-			chord = joinCord(prop.get("bootstrapUrl").toString());
-		}
+		
+		System.out.println(args);
+//		prop = loadLocalProperties();
+//		boolean fCreateNetwork = Boolean.valueOf(prop.get("createNetwork").toString());
+//
+//		Chord chord;
+//		if (fCreateNetwork) {
+//			chord = createCord(prop.get("localUrl").toString());
+//		} else {
+//			chord = joinCord(prop.get("bootstrapUrl").toString());
+//		}
 		
 
 	}
@@ -57,8 +59,8 @@ public class App {
 	private static Chord createCord(String strLocalURL) {
 		URL localURL = fetchURL(strLocalURL);
 
-		Chord chord = new ChordImpl();
-		chord.setCallback(new ChordNotifyCallbackImpl());
+		ChordImpl chord = new ChordImpl();
+		chord.setCallback(new ChordNotifyCallbackImpl(chord));
 		try {
 			log.debug(localURL);
 			chord.create(localURL);
@@ -71,8 +73,8 @@ public class App {
 	private static Chord joinCord(String strBootstrapURL) {
 		URL bootstrapURL = fetchURL(strBootstrapURL);
 
-		Chord chord = new ChordImpl();
-		chord.setCallback(new ChordNotifyCallbackImpl());
+		ChordImpl chord = new ChordImpl();
+		chord.setCallback(new ChordNotifyCallbackImpl(chord));
 		try {
 			log.debug(bootstrapURL);
 			chord.join(bootstrapURL);

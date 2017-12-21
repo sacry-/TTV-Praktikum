@@ -454,7 +454,12 @@ public final class NodeImpl extends Node {
 		}
 		afterTable.addAll(beforeTable);
 		lstFingerTable = afterTable;
-	
+
+//		System.out.println("Size: " + lstFingerTable.size());
+//		for(Node n : lstFingerTable) {
+//		}
+		
+		
 		Node receiverNode = lstFingerTable.get(0);
 		
 		// remove our node
@@ -465,6 +470,7 @@ public final class NodeImpl extends Node {
 			if(!isCurrInInerval(nextNode,info)) {
 				break;
 			}
+			System.out.println("  " + nextNode);
 			
 			sendBroadcast(receiverNode, nextNode.getNodeID(), info);
 			receiverNode = nextNode;

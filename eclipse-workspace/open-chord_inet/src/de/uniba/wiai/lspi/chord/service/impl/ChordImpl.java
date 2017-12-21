@@ -1122,6 +1122,7 @@ public final class ChordImpl implements Chord, Report, AsynChord {
 				target, this.getLastTransactionID() + 1, hit);
 		
 		try {
+			System.out.println("chord impl " + info);
 			localNode.broadcast(info);
 		} catch (CommunicationException e) {
 			// TODO Auto-generated catch block

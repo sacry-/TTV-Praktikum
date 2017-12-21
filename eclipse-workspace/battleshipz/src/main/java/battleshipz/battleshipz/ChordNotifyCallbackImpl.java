@@ -9,10 +9,18 @@ import de.uniba.wiai.lspi.chord.data.ID;
 import de.uniba.wiai.lspi.chord.service.ChordCallback;
 import de.uniba.wiai.lspi.chord.service.Key;
 import de.uniba.wiai.lspi.chord.service.NotifyCallback;
+import de.uniba.wiai.lspi.chord.service.impl.ChordImpl;
 
 public class ChordNotifyCallbackImpl implements NotifyCallback{
-	private static Logger log = Logger.getLogger(App.class);
+	private static Logger log = Logger.getLogger(Main.class);
+	
+	private ChordImpl chordImpl;
 
+	public ChordNotifyCallbackImpl(ChordImpl chordImpl) {
+		this.chordImpl = chordImpl;
+		
+	}
+	
 	public void retrieved(ID target) {
 		// TODO Auto-generated method stub
 		// schuss auf ID, prüfen ob getroffen oder nicht
