@@ -1,5 +1,7 @@
 package battleshipz.battleshipz;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +18,8 @@ public class Game {
 	private Map<ID, Pirate> hmPirates;
 	private Pirate me;
 	
-	public static Game createPirates(ChordImpl chordImpl, int numberShips, int numberFields) {
+	
+	public static Game createGame(ChordImpl chordImpl, int numberShips, int numberFields) {
 		
 		Pirate me = new Pirate(chordImpl.getID(), numberShips, numberFields);
 		
@@ -46,4 +49,15 @@ public class Game {
 			this.hmPirates.put(n.getNodeID(), new Pirate(n.getNodeID(), this.numberFields, this.numberShips));
 		}
 	}
+	
+	public List<Pirate> getPirates(){
+		
+		return new ArrayList<Pirate>(hmPirates.values());		
+	}
+	
+	public Pirate getMe() {
+		return me;
+	}
+	
+
 }

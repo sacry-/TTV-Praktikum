@@ -1177,4 +1177,12 @@ public final class ChordImpl implements Chord, Report, AsynChord {
 		}
 	}
 
+	public final void retrieveAsync(final ID id) {
+		this.asyncExecutor.execute(new Runnable() {
+			@Override
+			public void run() {
+				retrieve(id);
+			}
+		});
+	}
 }

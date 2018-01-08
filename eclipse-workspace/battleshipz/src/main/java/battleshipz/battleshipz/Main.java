@@ -3,11 +3,13 @@ package battleshipz.battleshipz;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+import de.uniba.wiai.lspi.chord.data.ID;
 import de.uniba.wiai.lspi.chord.data.URL;
 import de.uniba.wiai.lspi.chord.service.Chord;
 import de.uniba.wiai.lspi.chord.service.PropertiesLoader;
@@ -17,71 +19,73 @@ import de.uniba.wiai.lspi.chord.service.impl.ChordImpl;
 public class Main {
 	private static Logger log = Logger.getLogger(Main.class);
 
-	private static Properties prop;
+	public static int NR_BITS_ID = 160;
+	public static BigInteger MAX_ID = BigInteger.valueOf(2).pow(NR_BITS_ID).subtract(BigInteger.ONE);
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+
+		Properties prop = Utils.loadLocalProperties("resources/battleshipz.properties");
+		int iNumShips = Integer.getInteger(prop.getProperty("numShips"));
+		int iNumFields = Integer.getInteger(prop.getProperty("numFields"));
 		
 		System.out.println(args);
-//		prop = loadLocalProperties();
-//		boolean fCreateNetwork = Boolean.valueOf(prop.get("createNetwork").toString());
-//
-//		Chord chord;
-//		if (fCreateNetwork) {
-//			chord = createCord(prop.get("localUrl").toString());
-//		} else {
-//			chord = joinCord(prop.get("bootstrapUrl").toString());
-//		}
-		
 
-	}
-
-	private static Properties loadLocalProperties() {
-		Properties prop = new Properties();
-		InputStream input = null;
-		try {
-			input = new FileInputStream("resources/battleshipz.properties");
-			prop.load(input);
-
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return prop;
-	}
-
-	private static Chord createCord(String strLocalURL) {
-		URL localURL = fetchURL(strLocalURL);
+		boolean fCreate = Boolean.getBoolean(args[0]);
+		String strURL = args[1];
 
 		ChordImpl chord = new ChordImpl();
-		chord.setCallback(new ChordNotifyCallbackImpl(chord));
+		Game game = Game.createGame(chord, iNumShips, iNumFields);
+		ShootingLogic shootingLogic = new ShootingLogic(game);
+		chord.setCallback(new ChordNotifyCallbackImpl(chord,game, shootingLogic));
+		
+		if (fCreate) {
+			createCord(strURL, chord);
+		} else {
+			joinCord(strURL, chord);
+		}
+
+		
+		
+		if(doIStart(chord)) {
+			System.out.println("Press button to start");
+			System.in.read();
+			
+			game.shoot(shootingLogic.firstShootAtPlayer());
+
+			//// first shot
+			
+			
+		}
+
+	}
+
+	
+	private static boolean doIStart(ChordImpl chord) {
+		return (chord.getPredecessorID() != null && ID.valueOf(MAX_ID)
+				.isInInterval(chord.getPredecessorID(), chord.getID())) || MAX_ID
+				.equals(chord.getID().toBigInteger());
+	}
+	
+	
+
+	private static void createCord(String strLocalURL, ChordImpl chord) {
+		URL localURL = fetchURL(strLocalURL);
 		try {
 			log.debug(localURL);
 			chord.create(localURL);
 		} catch (ServiceException e) {
 			throw new RuntimeException(e);
 		}
-		return chord;
 	}
 
-	private static Chord joinCord(String strBootstrapURL) {
+	private static void joinCord(String strBootstrapURL, ChordImpl chord) {
 		URL bootstrapURL = fetchURL(strBootstrapURL);
-
-		ChordImpl chord = new ChordImpl();
-		chord.setCallback(new ChordNotifyCallbackImpl(chord));
 		try {
 			log.debug(bootstrapURL);
 			chord.join(bootstrapURL);
 		} catch (ServiceException e) {
 			throw new RuntimeException(e);
 		}
-		return chord;
 	}
 
 	private static URL fetchURL(String strUrl) {
