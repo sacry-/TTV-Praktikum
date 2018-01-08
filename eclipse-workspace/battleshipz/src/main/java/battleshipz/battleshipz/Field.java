@@ -20,6 +20,38 @@ public class Field {
 		this.fieldState = state;
 	}
 	
+	public boolean isInside(BigInteger field) {
+		if (startHash.compareTo(endHash) < 0) {
+			return field.compareTo(startHash) > -1 && field.compareTo(endHash) < 1;
+		} else {
+			return field.compareTo(startHash) > -1 || field.compareTo(endHash) < 1;
+		}
+	}
+
+	public int getFieldNumber() {
+		return fieldNumber;
+	}
+
+	public void setFieldNumber(int fieldNumber) {
+		this.fieldNumber = fieldNumber;
+	}
+
+	public BigInteger getStartHash() {
+		return startHash;
+	}
+
+	public void setStartHash(BigInteger startHash) {
+		this.startHash = startHash;
+	}
+
+	public BigInteger getEndHash() {
+		return endHash;
+	}
+
+	public void setEndHash(BigInteger endHash) {
+		this.endHash = endHash;
+	}
+
 	public FieldStateEnum getFieldState() {
 		return fieldState;
 	}
@@ -27,11 +59,6 @@ public class Field {
 	public void setFieldState(FieldStateEnum fieldState) {
 		this.fieldState = fieldState;
 	}
-	
-	
-	
-	
-	
 
 }
 
