@@ -33,25 +33,28 @@ public class ChordNotifyCallbackImpl implements NotifyCallback {
 	}
 
 	public void retrieved(ID target) {
-		log.debug("retrieved " + target.toHumanID());
 		// shot at us
 		synchronized (this) {
+			System.out.println("retrieved " + target.toHumanID());
+			int shot = game.amIShoot(target);
 			
-			chord.broadcast(target, game.amIShoot(target));
+			if(shot != -1) {
+				chord.broadcast(target, shot == 1);
+			}
 			
 			if (game.shipsLeft()) {
 				
 				final ID id2shoot = game.shootAtShip(new HashSet<Node>(chord.getFingerTable()));
 				chord.retrieveAsync(id2shoot);
 			}else {
-				log.error("nirvana");
+				System.out.println("nirvana");
 			}
 		}
 	}
 
 	public void broadcast(ID source, ID target, Boolean hit) {
-		log.debug("broadcast from " + source.toHumanID());
 		synchronized (this) {
+			System.out.println("broadcast from " + source.toHumanID());
 			game.broadcast(source, target, hit);
 		}
 	}

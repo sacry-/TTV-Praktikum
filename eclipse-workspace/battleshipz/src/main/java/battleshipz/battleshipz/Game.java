@@ -31,7 +31,9 @@ public class Game {
 
 	public static Game createGame(ChordImpl chordImpl, int numberShips, int numberFields) {
 
-		Pirate me = new Pirate(chordImpl.getID(), Arithmetic.calculateSectors(chordImpl.getID(), chordImpl.getPredecessorID(),numberFields));
+			
+		ID[] sectors = Arithmetic.calculateSectors(chordImpl.getPredecessorID(), chordImpl.getID(), numberFields);
+		Pirate me = new Pirate(chordImpl.getID(),sectors ,numberShips, numberFields);
 
 		Game game = new Game(numberShips, numberFields, me, new HashSet<Node>(chordImpl.getFingerTable()));
 
@@ -69,7 +71,7 @@ public class Game {
 	}
 	
 
-	public boolean amIShoot(ID target) {
+	public int amIShoot(ID target) {
 		return me.inIntervall(target);
 	}
 	
@@ -88,17 +90,17 @@ public class Game {
 			playerHitMap.put(source, playerHit);
 			
 			if(playerHit >= numberShips) {
-				log.info("Player " + source.toHumanID() + " is gone");
+				System.out.println("Player " + source.toHumanID() + " is dead. I WOOOON!");
 			}			
 		}else {
 			playerHitMap.put(source, 1);
 		}
 
-		log.info("---------------------------------------");
+		System.out.println("---------------------------------------");
 		for(ID id : playerHitMap.keySet()){
-			log.info("   Player " +id.toHumanID() + " has " + (numberShips - playerHitMap.get(id)) + " left");
+			System.out.println("   Player " +id.toHumanID() + " has " + (numberShips - playerHitMap.get(id)) + " left");
 		}
-		log.info("---------------------------------------");
+		System.out.println("---------------------------------------");
 		
 	}
 
@@ -133,10 +135,13 @@ public class Game {
 
 			}
 		}
-
+		
+		System.out.println("size of sectorsToshoot1 " + sectorsToShoot.size());
 		for (ID id : me.sectors) {
 			sectorsToShoot.remove(id);
 		}
+		
+		System.out.println("size of sectorsToshoot2 " + sectorsToShoot.size());
 		
 		return Arithmetic.selectShootID(sectorsToShoot);
 	}

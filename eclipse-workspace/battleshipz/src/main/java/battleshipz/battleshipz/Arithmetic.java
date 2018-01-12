@@ -30,8 +30,8 @@ public class Arithmetic {
 	}
 
 	private static ID multiply(ID id1, long value) {
-		System.out.println("long value "+ value);
-		System.out.println(id1.toBigInteger());
+//		System.out.println("long value "+ value);
+//		System.out.println(id1.toBigInteger());
 		return new ID(id1.toBigInteger().multiply(BigInteger.valueOf(value)).toByteArray());
 	}
 
@@ -47,9 +47,9 @@ public class Arithmetic {
 	public static ID[] calculateSectors(ID from, ID to, int numberOfFields) {
 		ID[] result = new ID[numberOfFields];
 		ID distance;
-		System.out.println("numberOfFields" + numberOfFields);
-		System.out.println("id from: " + from.toBigInteger());
-		System.out.println("id to: " + to.toBigInteger());
+//		System.out.println("numberOfFields" + numberOfFields);
+//		System.out.println("id from: " + from.toBigInteger());
+//		System.out.println("id to: " + to.toBigInteger());
 		
 		if (from.compareTo(to) < 0) {
 			distance = subtract(to, from);
@@ -57,11 +57,11 @@ public class Arithmetic {
 			distance = add(subtract(LARGEST_ID, from), to);
 		}
 
-		System.out.println("id distance: " + distance.toBigInteger());
+//		System.out.println("id distance: " + distance.toBigInteger());
 		
 		
 		ID step = divide(distance, numberOfFields);
-		System.out.println("id step: " + step.toBigInteger());
+//		System.out.println("id step: " + step.toBigInteger());
 		for (int i = 0; i < numberOfFields; i++) {
 			ID id = add(from, 1);
 			ID multiplied = multiply(step, i);
@@ -84,6 +84,7 @@ public class Arithmetic {
 				return i;
 			}
 		}
+		System.out.println("is in sector");
 		return -1;
 	}
 	
@@ -91,13 +92,8 @@ public class Arithmetic {
 		Random rnd = new Random();
 		int randIndex = rnd.nextInt(possibleTargets.size());
 		ID target = possibleTargets.get(randIndex);
+//		return target;
 		return mod(add(target, 10), LARGEST_ID);
 	}
 	
-    public BigInteger toBigInteger(ID id) {
-        final byte[] barr = new byte[id.getBytes().length];
-        barr[0] = 0;
-        System.arraycopy(value, 0, barr, 1, 20);
-        return new BigInteger(barr);
-    }
 }

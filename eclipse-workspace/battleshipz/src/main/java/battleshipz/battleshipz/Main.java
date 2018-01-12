@@ -51,20 +51,29 @@ public class Main {
 			joinCord(nodeURL, strBootrapURL, chord);
 		}
 
-		System.out.println("Hit enter to start.");
+		System.out.println("Hit enter to initgame.");
 		System.in.read();
 		Game game = Game.createGame(chord, iNumShips, iNumFields);
 		callback.setGame(game);
+		System.out.println("My ID is: " + chord.getID().toHumanID());
 		
-		
+		System.out.println("Hit enter to startgame.");
+		System.in.read();
+		System.in.read();
 		
 		if(doIStart(chord)) {
+			System.out.println("Iam starting.");
 			ID target = game.shootAtShip(new HashSet<Node>(chord.getFingerTable()));
+			for(Node n : chord.getFingerTable()) {
+				System.out.println("  " + n.getNodeID().toHumanID() + " " + n.getNodeURL());
+			}
+
+			System.out.println("shooting at target: " + target.toHumanID() );
+			
 			chord.retrieveAsync(target);
 		}
 
-		
-
+		System.out.println("started.");
 
 	}
 	

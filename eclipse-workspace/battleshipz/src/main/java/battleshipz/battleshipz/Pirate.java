@@ -1,6 +1,7 @@
 package battleshipz.battleshipz;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,19 +15,26 @@ public class Pirate {
 	public List<Boolean> shipPlacement = new ArrayList<Boolean>();
 	
 	
-	public Pirate(ID id, ID[] sectors) {
+	public Pirate(ID id, ID[] sectors, int numShips, int numSectors) {
 		this.id = id;
 		this.sectors = sectors;
+		for(int i=0; i< numSectors; i++) {
+			shipPlacement.add(false);
+		}
+		for(int i=0; i< numShips; i++) {
+			shipPlacement.set(i, true);
+		}
+		Collections.shuffle(shipPlacement);
 	}
 	
-	public boolean inIntervall(ID target) {
+	public int inIntervall(ID target) {
 		for (int i = 0; i < sectors.length - 1; i++) {
 			if (target.compareTo(sectors[i]) >= 0 && target.compareTo(sectors[i + 1]) < 0) {
 				if (shipPlacement.get(i)) {
 					shipPlacement.set(i, false);
-					return true;
+					return 1;
 				} else {
-					return false;
+					return 0;
 				}
 			}
 		}
@@ -35,11 +43,11 @@ public class Pirate {
 	    if (target.compareTo(sectors[lastIndex]) >= 0 && target.compareTo(id) <= 0) {
 	        if (shipPlacement.get(lastIndex)) {
 	        	shipPlacement.set(lastIndex, false);
-	        	return true;
+	        	return 1;
 	        }
 	    }
-	    
-		return false;
+	    System.out.println("pirate is not inIntervall");
+		return -1;
 	}
 	
 	public boolean shipsLeft() {
