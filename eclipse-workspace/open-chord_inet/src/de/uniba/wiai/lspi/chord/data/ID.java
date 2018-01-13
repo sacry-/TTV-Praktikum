@@ -62,20 +62,21 @@ public final class ID implements Comparable<ID>, Serializable {
 	private static final int BIN = 0;
 
 	/**
-	 * The representation of an id returned as String when {@link #toString()}
-	 * is invoked. Is intialized with help of property
+	 * The representation of an id returned as String when {@link #toString()} is
+	 * invoked. Is intialized with help of property
 	 * <code>de.uniba.wiai.lspi.chord.data.ID.displayed.representation</code>.
-	 * Possible values: <br/><br/>
+	 * Possible values: <br/>
+	 * <br/>
 	 * 
-	 * <code>0 = BIN</code>, binary<br/> <code>1 = DEC</code>, decimal<br/>
+	 * <code>0 = BIN</code>, binary<br/>
+	 * <code>1 = DEC</code>, decimal<br/>
 	 * <code>2 = HEX</code>, hexadecimal<br/>
 	 */
 	private static int displayedRepresentation = HEX;
 
 	// static initializer for displayedRepresentation
 	static {
-		String property = System.getProperty(ID.class.getName()
-				+ ".displayed.representation");
+		String property = System.getProperty(ID.class.getName() + ".displayed.representation");
 
 		if (property != null && property.length() > 0) {
 			displayedRepresentation = Integer.parseInt(property);
@@ -91,8 +92,7 @@ public final class ID implements Comparable<ID>, Serializable {
 
 	// static initializer for numberOfDisplayedBytes
 	static {
-		String numberProperty = System.getProperty(ID.class.getName()
-				+ ".number.of.displayed.bytes");
+		String numberProperty = System.getProperty(ID.class.getName() + ".number.of.displayed.bytes");
 
 		if (numberProperty != null && numberProperty.length() > 0) {
 			numberOfDisplayedBytes = Integer.parseInt(numberProperty);
@@ -105,9 +105,9 @@ public final class ID implements Comparable<ID>, Serializable {
 	private final byte[] id;
 
 	/**
-	 * Creates a new ID consisting of the given byte[] array. The ID is assumed
-	 * to have (ID.length * 8) bits. It must have leading zeros if its value has
-	 * fewer digits than its maximum length.
+	 * Creates a new ID consisting of the given byte[] array. The ID is assumed to
+	 * have (ID.length * 8) bits. It must have leading zeros if its value has fewer
+	 * digits than its maximum length.
 	 * 
 	 * @param id1
 	 *            Byte array containing the ID.
@@ -118,53 +118,48 @@ public final class ID implements Comparable<ID>, Serializable {
 	}
 
 	/**
-	 * Creates an ID instance by copying the byte array from the given value to
-	 * the new ID. Since BigInteger stores the byte array as a two's-complement
-	 * and ID doesn't (ID can only hold positive values) the first byte is
-     * ignored if it is 0, otherwise it's included. Thus, you shouldn't provide
-     * a negative value which would result in a wrong ID since IDs cannot be
-     * negative.
-     */
-    public static ID valueOf(final BigInteger value) {
-        final byte[] barr = value.toByteArray();
-        final int start;
-        if (barr.length < 20) {
-            final byte[] b = new byte[20];
-            Arrays.fill(b, (byte) 0);
-            System.arraycopy(barr, 0, b, 20 - barr.length, barr.length);
-            return new ID(b);
-        } else if (barr.length > 20) {
-            start = 1;
-        } else {
-            start = 0;
-        }
-        return new ID(Arrays.copyOfRange(barr, start, barr.length));
-    }
-    
-    public BigInteger toBigInteger() {
-//        final byte[] barr = new byte[21];
-//        barr[0] = 0;
-//        System.arraycopy(getBytes(), 0, barr, 1, 20);
-//        return new BigInteger(barr);
-    	
-    	final byte[] barr = new byte[getBytes().length + 1];
-    	barr[0] = 0;
-    	System.arraycopy(getBytes(), 0, barr, 1, getBytes().length);
-    	return new BigInteger(barr);
-    }
+	 * Creates an ID instance by copying the byte array from the given value to the
+	 * new ID. Since BigInteger stores the byte array as a two's-complement and ID
+	 * doesn't (ID can only hold positive values) the first byte is ignored if it is
+	 * 0, otherwise it's included. Thus, you shouldn't provide a negative value
+	 * which would result in a wrong ID since IDs cannot be negative.
+	 */
+	public static ID valueOf(final BigInteger value) {
+		final byte[] barr = value.toByteArray();
+		final int start;
+		if (barr.length < 20) {
+			final byte[] b = new byte[20];
+			Arrays.fill(b, (byte) 0);
+			System.arraycopy(barr, 0, b, 20 - barr.length, barr.length);
+			return new ID(b);
+		} else if (barr.length > 20) {
+			start = 1;
+		} else {
+			start = 0;
+		}
+		return new ID(Arrays.copyOfRange(barr, start, barr.length));
+	}
 
-    public byte[] getBytes() {
+	public BigInteger toBigInteger() {
+		final byte[] barr = new byte[21];
+		barr[0] = 0;
+		System.arraycopy(getBytes(), 0, barr, 1, 20);
+		return new BigInteger(barr);
+
+	}
+
+	public byte[] getBytes() {
 		return id;
-    }
+	}
 
-    /**
+	/**
 	 * Representation of this as a String.
 	 */
 	private transient String stringRepresentation = null;
 
 	/**
-	 * Returns a string of the decimal representation of this ID, including
-	 * leading zeros.
+	 * Returns a string of the decimal representation of this ID, including leading
+	 * zeros.
 	 * 
 	 * @return Decimal string of ID
 	 */
@@ -173,16 +168,13 @@ public final class ID implements Comparable<ID>, Serializable {
 			int rep = ID.displayedRepresentation;
 			switch (rep) {
 			case 0:
-				this.stringRepresentation = this
-				.toBinaryString(ID.numberOfDisplayedBytes);
-				break; 
+				this.stringRepresentation = this.toBinaryString(ID.numberOfDisplayedBytes);
+				break;
 			case 1:
-				this.stringRepresentation = this
-				.toDecimalString(ID.numberOfDisplayedBytes);
-				break; 
+				this.stringRepresentation = this.toDecimalString(ID.numberOfDisplayedBytes);
+				break;
 			default:
-				this.stringRepresentation = this
-						.toHexString(ID.numberOfDisplayedBytes);
+				this.stringRepresentation = this.toHexString(ID.numberOfDisplayedBytes);
 			}
 
 		}
@@ -228,8 +220,8 @@ public final class ID implements Comparable<ID>, Serializable {
 	}
 
 	/**
-	 * Returns a string of the decimal representation of the first
-	 * <code>n</code> bytes of this ID, including leading zeros.
+	 * Returns a string of the decimal representation of the first <code>n</code>
+	 * bytes of this ID, including leading zeros.
 	 * 
 	 * @param numberOfBytes
 	 * 
@@ -251,8 +243,8 @@ public final class ID implements Comparable<ID>, Serializable {
 	}
 
 	/**
-	 * Returns a string of the decimal representation of this ID, including
-	 * leading zeros.
+	 * Returns a string of the decimal representation of this ID, including leading
+	 * zeros.
 	 * 
 	 * @return Decimal string of ID
 	 */
@@ -261,18 +253,17 @@ public final class ID implements Comparable<ID>, Serializable {
 	}
 
 	/**
-	 * Returns a string of the decimal representation of this ID, including
-	 * leading zeros.
+	 * Returns a string of the decimal representation of this ID, including leading
+	 * zeros.
 	 * 
 	 * @return Decimal string of ID
 	 */
 	public final String toHumanID() {
 		String dec = this.toDecimalString(this.id.length);
-		String[]parts = dec.split(" ");
+		String[] parts = dec.split(" ");
 		return parts[0];
 	}
 
-	
 	/**
 	 * Returns a string of the binary representation of the first <code>n</code>
 	 * bytes of this ID, including leading zeros.
@@ -302,8 +293,8 @@ public final class ID implements Comparable<ID>, Serializable {
 	}
 
 	/**
-	 * Returns a string of the binary representation of this ID, including
-	 * leading zeros.
+	 * Returns a string of the binary representation of this ID, including leading
+	 * zeros.
 	 * 
 	 * @return Binary string of ID
 	 */
@@ -312,9 +303,9 @@ public final class ID implements Comparable<ID>, Serializable {
 	}
 
 	/**
-	 * Returns length of this ID measured in bits. ID length is determined by
-	 * the length of the stored byte[] array, i.e. leading zeros have to be
-	 * stored in the array.
+	 * Returns length of this ID measured in bits. ID length is determined by the
+	 * length of the stored byte[] array, i.e. leading zeros have to be stored in
+	 * the array.
 	 * 
 	 * @return Length of this ID measured in bits.
 	 */
@@ -327,17 +318,16 @@ public final class ID implements Comparable<ID>, Serializable {
 	 * modulo the maximum ID and returns it.
 	 * 
 	 * @param powerOfTwo
-	 *            Power of two which is added to the current ID. Must be a value
-	 *            of the interval [0, length-1], including both extremes.
-	 * @return ID which is 2^powerOfTwo bits greater than the current ID modulo
-	 *         the maximum ID.
+	 *            Power of two which is added to the current ID. Must be a value of
+	 *            the interval [0, length-1], including both extremes.
+	 * @return ID which is 2^powerOfTwo bits greater than the current ID modulo the
+	 *         maximum ID.
 	 */
 	public final ID addPowerOfTwo(int powerOfTwo) {
 
 		if (powerOfTwo < 0 || powerOfTwo >= (this.id.length * 8)) {
 			throw new IllegalArgumentException(
-					"The power of two is out of range! It must be in the interval "
-							+ "[0, length-1]");
+					"The power of two is out of range! It must be in the interval " + "[0, length-1]");
 		}
 
 		// copy ID
@@ -386,38 +376,32 @@ public final class ID implements Comparable<ID>, Serializable {
 	}
 
 	/**
-	 * Compare current ID with the given object. If either the object is not a
-	 * ID or both IDs' lengths do not match, a ClassCastException is thrown.
-	 * Otherwise both IDs are compared byte by byte.
+	 * Compare current ID with the given object. If either the object is not a ID or
+	 * both IDs' lengths do not match, a ClassCastException is thrown. Otherwise
+	 * both IDs are compared byte by byte.
 	 * 
-	 * @return -1, 0, or 1, if this ID is smaller, same size, or greater than
-	 *         the given object, respectively.
+	 * @return -1, 0, or 1, if this ID is smaller, same size, or greater than the
+	 *         given object, respectively.
 	 */
 	public final int compareTo(ID otherKey) throws ClassCastException {
-		
-		//// change back
 
-//		if (this.getLength() != otherKey.getLength()) {
-//            throw new ClassCastException("Only ID objects with same length can be " 
-//            								+ "compared! This ID is " + this.getLength()
-//            								+ " bits long while the other ID is " 
-//            								+ otherKey.getLength() + " bits long.");
-//        }
-//
-//		// compare value byte by byte
-//		byte[] otherBytes = new byte[this.id.length];
-//		System.arraycopy(otherKey.id, 0, otherBytes, 0, this.id.length);
-//
-//		for (int i = 0; i < this.id.length; i++) {
-//			if ((byte) (this.id[i] - 128) < (byte) (otherBytes[i] - 128)) {
-//				return -1; // this ID is smaller
-//			} else if ((byte) (this.id[i] - 128) > (byte) (otherBytes[i] - 128)) {
-//				return 1; // this ID is greater
-//			}
-//		}
-//		return 0;
-		
-		return this.toBigInteger().compareTo(otherKey.toBigInteger());
+		if (this.getLength() != otherKey.getLength()) {
+			throw new ClassCastException("Only ID objects with same length can be " + "compared! This ID is "
+					+ this.getLength() + " bits long while the other ID is " + otherKey.getLength() + " bits long.");
+		}
+
+		// compare value byte by byte
+		byte[] otherBytes = new byte[this.id.length];
+		System.arraycopy(otherKey.id, 0, otherBytes, 0, this.id.length);
+
+		for (int i = 0; i < this.id.length; i++) {
+			if ((byte) (this.id[i] - 128) < (byte) (otherBytes[i] - 128)) {
+				return -1; // this ID is smaller
+			} else if ((byte) (this.id[i] - 128) > (byte) (otherBytes[i] - 128)) {
+				return 1; // this ID is greater
+			}
+		}
+		return 0;
 
 	}
 
@@ -433,9 +417,9 @@ public final class ID implements Comparable<ID>, Serializable {
 	}
 
 	/**
-	 * Checks if this ID is in the interval determined by the two given IDs.
-	 * Neither of the boundary IDs is included in the interval. If both IDs
-	 * match, the interval is assumed to span the whole ID ring.
+	 * Checks if this ID is in the interval determined by the two given IDs. Neither
+	 * of the boundary IDs is included in the interval. If both IDs match, the
+	 * interval is assumed to span the whole ID ring.
 	 * 
 	 * @param fromID
 	 *            Lower bound of interval.
@@ -467,12 +451,9 @@ public final class ID implements Comparable<ID>, Serializable {
 		ID maxID = new ID(maxIDBytes);
 		// check both splitted intervals
 		// first interval: (fromID, maxID]
-		return ((!fromID.equals(maxID) && this.compareTo(fromID) > 0 && this
-				.compareTo(maxID) <= 0) ||
+		return ((!fromID.equals(maxID) && this.compareTo(fromID) > 0 && this.compareTo(maxID) <= 0) ||
 		// second interval: [minID, toID)
-		(!minID.equals(toID) && this.compareTo(minID) >= 0 && this
-				.compareTo(toID) < 0));
+				(!minID.equals(toID) && this.compareTo(minID) >= 0 && this.compareTo(toID) < 0));
 	}
-	
 
 }

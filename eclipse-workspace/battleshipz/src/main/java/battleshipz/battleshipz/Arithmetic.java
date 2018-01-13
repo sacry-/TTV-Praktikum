@@ -1,7 +1,6 @@
 package battleshipz.battleshipz;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -25,9 +24,6 @@ public class Arithmetic {
 		return ID.valueOf(id1.toBigInteger().subtract(value.toBigInteger()));
 	}
 
-	private static ID subtract(ID id1, int value) {
-		return ID.valueOf(id1.toBigInteger().subtract(BigInteger.valueOf(value)));
-	}
 
 	private static ID multiply(ID id1, long value) {
 		return ID.valueOf(id1.toBigInteger().multiply(BigInteger.valueOf(value)));
@@ -83,7 +79,6 @@ public class Arithmetic {
 		Random rnd = new Random();
 		int randIndex = rnd.nextInt(possibleTargets.size());
 		ID target = possibleTargets.get(randIndex);
-//		return target;
 		return mod(add(target, 10), LARGEST_ID);
 	}
 
