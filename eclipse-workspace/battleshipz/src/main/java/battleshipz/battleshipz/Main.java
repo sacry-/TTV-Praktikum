@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.util.HashSet;
 import java.util.Properties;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import de.uniba.wiai.lspi.chord.com.Node;
@@ -18,14 +19,16 @@ public class Main {
 	private static Logger log = Logger.getLogger(Main.class);
 
 	public static void main(String[] args) throws IOException {
+		BasicConfigurator.configure();
+		
 		PropertiesLoader.loadPropertyFile();
 
 		Properties prop = Utils.loadLocalProperties("resources/battleshipz.properties");
 		int iNumShips = Integer.parseInt(prop.getProperty("numShips").toString());
 		int iNumFields = Integer.parseInt(prop.getProperty("numFields").toString());
 
-		log.info("iNumShips: "+ iNumShips + " iNumFields: " + iNumFields);
-		log.info(args);
+		log.debug("iNumShips: "+ iNumShips + " iNumFields: " + iNumFields);
+		log.debug(args);
 
 		boolean fCreate = Boolean.parseBoolean(args[0]);
 		String nodeURL = args[1];
@@ -42,28 +45,26 @@ public class Main {
 			joinCord(nodeURL, strBootrapURL, chord);
 		}
 
-		log.info("Hit enter to initgame.");
+		log.debug("Hit enter to initialize game state");
 		System.in.read();
 		
 		Game game = Game.createGame(chord, iNumShips, iNumFields);
 		callback.setGame(game);
-		log.info("My ID is: " + chord.getID().toHumanID());
+		log.debug("My ID is: " + chord.getID().toHumanID());
 		
-		log.info("Hit enter to startgame.");
+		log.debug("Hit enter to start the game");
 		System.in.read();
 		
 		if(doIStart(chord)) {
-			log.info("Iam starting.");
+			log.debug("I am starting.");
 			ID target = game.shootAtShip(new HashSet<Node>(chord.getFingerTable()));
 			for(Node n : chord.getFingerTable()) {
-				log.info("  " + n.getNodeID().toHumanID() + " " + n.getNodeURL());
+				log.debug("  " + n.getNodeID().toHumanID() + " " + n.getNodeURL());
 			}
-			log.info("shooting at target: " + target.toHumanID() );
+			log.debug("shooting at target: " + target.toHumanID() );
 			
 			chord.retrieveAsync(target);
 		}
-
-		log.info("started.");
 	}
 	
 	private static boolean doIStart(ChordImpl chord) {
