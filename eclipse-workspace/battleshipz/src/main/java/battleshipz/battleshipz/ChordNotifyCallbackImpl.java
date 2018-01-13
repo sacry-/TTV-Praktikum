@@ -10,7 +10,6 @@ import de.uniba.wiai.lspi.chord.service.NotifyCallback;
 import de.uniba.wiai.lspi.chord.service.impl.ChordImpl;
 
 public class ChordNotifyCallbackImpl implements NotifyCallback {
-	private static Logger log = Logger.getLogger(Main.class);
 
 	private ChordImpl chord;
 
@@ -31,7 +30,6 @@ public class ChordNotifyCallbackImpl implements NotifyCallback {
 	public void retrieved(ID target) {
 		// shot at us
 		synchronized (this) {
-			log.info("retrieved " + target.toHumanID());
 			int shot = game.amIShoot(target);
 			
 			if(shot != -1) {
@@ -43,14 +41,13 @@ public class ChordNotifyCallbackImpl implements NotifyCallback {
 				final ID id2shoot = game.shootAtShip(new HashSet<Node>(chord.getFingerTable()));
 				chord.retrieveAsync(id2shoot);
 			}else {
-				System.out.println("nirvana");
+				System.out.println("Iam in nirvana ciao..");
 			}
 		}
 	}
 
 	public void broadcast(ID source, ID target, Boolean hit) {
 		synchronized (this) {
-			log.info("broadcast from " + source.toHumanID());
 			game.broadcast(source, target, hit);
 		}
 	}

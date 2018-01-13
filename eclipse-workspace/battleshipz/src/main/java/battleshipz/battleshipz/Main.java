@@ -16,9 +16,9 @@ import de.uniba.wiai.lspi.chord.service.ServiceException;
 import de.uniba.wiai.lspi.chord.service.impl.ChordImpl;
 
 public class Main {
-	private static Logger log = Logger.getLogger(Main.class);
 
 	public static void main(String[] args) throws IOException {
+		
 		BasicConfigurator.configure();
 		
 		PropertiesLoader.loadPropertyFile();
@@ -27,8 +27,8 @@ public class Main {
 		int iNumShips = Integer.parseInt(prop.getProperty("numShips").toString());
 		int iNumFields = Integer.parseInt(prop.getProperty("numFields").toString());
 
-		log.debug("iNumShips: "+ iNumShips + " iNumFields: " + iNumFields);
-		log.debug(args);
+		System.out.println("iNumShips: "+ iNumShips + " iNumFields: " + iNumFields);
+		System.out.println(args);
 
 		boolean fCreate = Boolean.parseBoolean(args[0]);
 		String nodeURL = args[1];
@@ -45,23 +45,23 @@ public class Main {
 			joinCord(nodeURL, strBootrapURL, chord);
 		}
 
-		log.debug("Hit enter to initialize game state");
+		System.out.println("Hit enter to initialize game state");
 		System.in.read();
 		
 		Game game = Game.createGame(chord, iNumShips, iNumFields);
 		callback.setGame(game);
-		log.debug("My ID is: " + chord.getID().toHumanID());
+		System.out.println("My ID is: " + chord.getID().toHumanID());
 		
-		log.debug("Hit enter to start the game");
+		System.out.println("Hit enter to start the game");
 		System.in.read();
 		
 		if(doIStart(chord)) {
-			log.debug("I am starting.");
+			System.out.println("I am starting.");
 			ID target = game.shootAtShip(new HashSet<Node>(chord.getFingerTable()));
 			for(Node n : chord.getFingerTable()) {
-				log.debug("  " + n.getNodeID().toHumanID() + " " + n.getNodeURL());
+				System.out.println("  " + n.getNodeID().toHumanID() + " " + n.getNodeURL());
 			}
-			log.debug("shooting at target: " + target.toHumanID() );
+			System.out.println("shooting at target: " + target.toHumanID() );
 			
 			chord.retrieveAsync(target);
 		}
@@ -76,7 +76,7 @@ public class Main {
 	private static void createCord(String strLocalURL, ChordImpl chord) {
 		URL localURL = fetchURL(strLocalURL);
 		try {
-			log.debug(localURL);
+			System.out.println(localURL);
 			chord.create(localURL);
 		} catch (ServiceException e) {
 			throw new RuntimeException(e);
@@ -87,7 +87,7 @@ public class Main {
 		URL bootstrapURL = fetchURL(strBootstrapURL);
 		URL nodeURL = fetchURL(strNodeUrl);
 		try {
-			log.debug(bootstrapURL);
+			System.out.println(bootstrapURL);
 			chord.setURL(nodeURL);
 			chord.join(bootstrapURL);
 		} catch (ServiceException e) {

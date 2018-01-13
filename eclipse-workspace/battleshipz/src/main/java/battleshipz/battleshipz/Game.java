@@ -2,6 +2,7 @@ package battleshipz.battleshipz;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +16,6 @@ import de.uniba.wiai.lspi.chord.data.ID;
 import de.uniba.wiai.lspi.chord.service.impl.ChordImpl;
 
 public class Game {
-	private static Logger log = Logger.getLogger(Game.class);
 
 	private int numberShips = 10;
 	private int numberFields = 100;
@@ -77,18 +77,18 @@ public class Game {
 			int playerHit = playerHitMap.get(source) +1;
 			playerHitMap.put(source, playerHit);
 			
-			if(playerHit >= numberShips) {
-				log.info("Player " + source.toHumanID() + " is dead. I WOOOON!");
+			if(playerHit >= numberShips && source.compareTo(me.id) != 0 ) {
+				System.out.println("Player " + source.toHumanID() + " is dead. I WOOOON!" + " " + new Date());
 			}			
 		}else {
 			playerHitMap.put(source, 1);
 		}
 
-		log.info("---------------------------------------");
+		System.out.println("---------------------------------------");
 		for(ID id : playerHitMap.keySet()){
-			log.info("   Player " +id.toHumanID() + " has " + (numberShips - playerHitMap.get(id)) + " left");
+			System.out.println("   Player " +id.toHumanID() + " has " + (numberShips - playerHitMap.get(id)) + " left");
 		}
-		log.info("---------------------------------------");	
+		System.out.println("---------------------------------------");	
 	}
 	
 	public ID shootAtShip(Set<Node> fingertable) {
