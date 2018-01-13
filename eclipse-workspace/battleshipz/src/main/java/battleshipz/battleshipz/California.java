@@ -2,62 +2,42 @@ package battleshipz.battleshipz;
 
 import de.uniba.wiai.lspi.util.logging.Logger;
 import org.eclipse.californium.core.CoapClient;
-import org.eclipse.californium.core.CoapResponse;
-import org.eclipse.californium.core.Utils;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
 public class California {
-
-    private static Logger logger = Logger.getLogger(California.class);
-    private static CoapClient client = null;
+    private static Logger log = Logger.getLogger(California.class);
     private URI uri = null;
-
-    public void initLED() throws URISyntaxException {
-        uri = new URI("coap://localhost/led");
-        //uri = new URI("coap://localhost:5683/led");
-        client = new CoapClient(uri);
-        CoapResponse response = client.get();
-        sendStatus(1);
-
-        if (response!=null) {
-
-            System.out.println(response.getCode());
-            System.out.println(response.getOptions());
-            System.out.println(response.getResponseText());
-
-            System.out.println("\nADVANCED\n");
-            // access advanced API with access to more details through .advanced()
-            System.out.println(Utils.prettyPrint(response));
-
-        } else {
-            System.out.println("No response received.");
-        }
+    private CoapClient client = null;
+    
+    public California() {
+		try {
+			this.uri = new URI("coap://localhost/led");
+			this.client = new CoapClient(uri);
+		}catch(URISyntaxException e) {
+			log.error(e);
+		}
+        setLED(1);
     }
-
-
-    public void sendStatus(int status){
-        String color = "g";
+    
+    public void setLED(int status){
         try {
-            if (status > 0.5) {
-                //Grün
+            if (status > 0.5) { // green
                 client.put("0", MediaTypeRegistry.TEXT_PLAIN);
                 client.put("g", MediaTypeRegistry.TEXT_PLAIN);
-            } else if (status <= 0.5 && status > 0) {
-                //sende Violett
+            } else if (status <= 0.5 && status > 0) { // violet
                 client.put("1", MediaTypeRegistry.TEXT_PLAIN);
                 client.put("g", MediaTypeRegistry.TEXT_PLAIN);
-            } else if (status == 0) {
-                //sende rot
+            } else if (status == 0) { // red
                 client.put("0", MediaTypeRegistry.TEXT_PLAIN);
                 client.put("r", MediaTypeRegistry.TEXT_PLAIN);
             } else {
-                logger.error("Unbekannter Status übergeben in CoAP Adapter");
+            		log.error("Unknown LED status.");
             }
         } catch (Exception e) {
-            logger.error("Caught an exception while putting CoAP-stuff.");
+            log.error(e);
         }
     }
 }

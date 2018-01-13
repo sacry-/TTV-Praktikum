@@ -24,7 +24,6 @@ public class Arithmetic {
 		return ID.valueOf(id1.toBigInteger().subtract(value.toBigInteger()));
 	}
 
-
 	private static ID multiply(ID id1, long value) {
 		return ID.valueOf(id1.toBigInteger().multiply(BigInteger.valueOf(value)));
 	}

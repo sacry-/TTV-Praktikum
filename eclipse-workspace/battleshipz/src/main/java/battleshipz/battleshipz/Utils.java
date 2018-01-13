@@ -6,8 +6,6 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Utils {
-
-	
 	public static Properties loadLocalProperties(String path) {
 		Properties prop = new Properties();
 		InputStream input = null;
@@ -28,6 +26,4 @@ public class Utils {
 		}
 		return prop;
 	}
-	
-	
 }

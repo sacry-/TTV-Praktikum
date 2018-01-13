@@ -1,13 +1,11 @@
 package battleshipz.battleshipz;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -30,14 +28,9 @@ public class Game {
 	
 
 	public static Game createGame(ChordImpl chordImpl, int numberShips, int numberFields) {
-
-			
 		ID[] sectors = Arithmetic.calculateSectors(chordImpl.getPredecessorID(), chordImpl.getID(), numberFields);
 		Pirate me = new Pirate(chordImpl.getID(),sectors ,numberShips, numberFields);
-
-		Game game = new Game(numberShips, numberFields, me, new HashSet<Node>(chordImpl.getFingerTable()));
-
-		return game;
+		return new Game(numberShips, numberFields, me, new HashSet<Node>(chordImpl.getFingerTable()));
 	}
 	
 
@@ -45,26 +38,21 @@ public class Game {
 		this.numberShips = numberShips;
 		this.numberFields = numberFields;
 		this.me = me;
-
-		// init playersectors
+		
 		List<ID> knownPlayerIDs = new ArrayList<ID>();
-
 		knownPlayerIDs.add(me.id);
-
 		for (Node node : fingertable) {
 			knownPlayerIDs.add(node.getNodeID());
 		}
 
 		Collections.sort(knownPlayerIDs);
 
-		// calculate sectors
 		for (int i = 0; i < knownPlayerIDs.size() - 1; i++) {
 			ID player1 = knownPlayerIDs.get(i);
 			ID player2 = knownPlayerIDs.get(i + 1);
 			ID[] newSectors = Arithmetic.calculateSectors(player1, player2, numberFields);
 			playerSectors.put(player1, newSectors);
 		}
-		// case for the last player
 		ID[] newSectors = Arithmetic.calculateSectors(knownPlayerIDs.get(knownPlayerIDs.size() - 1),
 				knownPlayerIDs.get(0), numberFields);
 		playerSectors.put(knownPlayerIDs.get(knownPlayerIDs.size() - 1), newSectors);
@@ -90,21 +78,18 @@ public class Game {
 			playerHitMap.put(source, playerHit);
 			
 			if(playerHit >= numberShips) {
-				System.out.println("Player " + source.toHumanID() + " is dead. I WOOOON!");
+				log.info("Player " + source.toHumanID() + " is dead. I WOOOON!");
 			}			
 		}else {
 			playerHitMap.put(source, 1);
 		}
 
-		System.out.println("---------------------------------------");
+		log.info("---------------------------------------");
 		for(ID id : playerHitMap.keySet()){
-			System.out.println("   Player " +id.toHumanID() + " has " + (numberShips - playerHitMap.get(id)) + " left");
+			log.info("   Player " +id.toHumanID() + " has " + (numberShips - playerHitMap.get(id)) + " left");
 		}
-		System.out.println("---------------------------------------");
-		
+		log.info("---------------------------------------");	
 	}
-
-	
 	
 	public ID shootAtShip(Set<Node> fingertable) {
 		List<ID> knownPlayerIDs = new ArrayList<ID>();
@@ -136,13 +121,9 @@ public class Game {
 			}
 		}
 		
-		System.out.println("size of sectorsToshoot1 " + sectorsToShoot.size());
 		for (ID id : me.sectors) {
 			sectorsToShoot.remove(id);
-		}
-		
-		System.out.println("size of sectorsToshoot2 " + sectorsToShoot.size());
-		
+		}	
 		return Arithmetic.selectShootID(sectorsToShoot);
 	}
 

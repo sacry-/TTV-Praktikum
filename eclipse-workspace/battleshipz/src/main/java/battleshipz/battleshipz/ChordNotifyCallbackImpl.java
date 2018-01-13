@@ -1,15 +1,11 @@
 package battleshipz.battleshipz;
 
-import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
 import de.uniba.wiai.lspi.chord.com.Node;
 import de.uniba.wiai.lspi.chord.data.ID;
-import de.uniba.wiai.lspi.chord.service.ChordCallback;
-import de.uniba.wiai.lspi.chord.service.Key;
 import de.uniba.wiai.lspi.chord.service.NotifyCallback;
 import de.uniba.wiai.lspi.chord.service.impl.ChordImpl;
 
@@ -35,7 +31,7 @@ public class ChordNotifyCallbackImpl implements NotifyCallback {
 	public void retrieved(ID target) {
 		// shot at us
 		synchronized (this) {
-			System.out.println("retrieved " + target.toHumanID());
+			log.info("retrieved " + target.toHumanID());
 			int shot = game.amIShoot(target);
 			
 			if(shot != -1) {
@@ -54,7 +50,7 @@ public class ChordNotifyCallbackImpl implements NotifyCallback {
 
 	public void broadcast(ID source, ID target, Boolean hit) {
 		synchronized (this) {
-			System.out.println("broadcast from " + source.toHumanID());
+			log.info("broadcast from " + source.toHumanID());
 			game.broadcast(source, target, hit);
 		}
 	}
