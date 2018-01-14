@@ -23,7 +23,7 @@ public class Strategy {
 		this.me = me;
 		this.playerSectors = playerSectors;
 		this.possibleTargetSectors = possibleTargetSectors;
-		this.playerHitMap = createHitMap(globalPlayerHitMap, this.me);
+		this.playerHitMap = createPlayerHitMap(globalPlayerHitMap, this.me);
 		this.fieldHitMap = fieldHitMap;
 	}
 	
@@ -79,14 +79,14 @@ public class Strategy {
 		}
 		
 		if (targetSectors.size() > 0) {
-			System.out.println("Custom selection...");
+			Utils.out("Custom selection...");
 			return selectField(targetSectors);
 		}
 		
 		return selectRandom();
 	}
 	
-	private Map<ID, Integer> createHitMap(Map<ID, Integer> globalPlayerHitMap, Pirate me) {
+	private Map<ID, Integer> createPlayerHitMap(Map<ID, Integer> globalPlayerHitMap, Pirate me) {
 		Map<ID, Integer> localPlayerHitMap= new HashMap<ID, Integer>();
 		for (Map.Entry<ID, Integer> entry : globalPlayerHitMap.entrySet()) {
 			if (entry.getKey().equals(me.id)) {
@@ -101,6 +101,6 @@ public class Strategy {
 		Random rnd = new Random();
 		int randIndex = rnd.nextInt(possibleSectors.size());
 		ID targetField = possibleSectors.get(randIndex);
-		return Arithmetic.mod(Arithmetic.add(targetField, 1), Arithmetic.LARGEST_ID);
+		return Arithmetic.mod(Arithmetic.add(targetField, 10), Arithmetic.LARGEST_ID);
 	}
 }

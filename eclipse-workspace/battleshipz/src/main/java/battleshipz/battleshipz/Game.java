@@ -65,7 +65,8 @@ public class Game {
 	}
 	
 	public void broadcast(ID source, ID target, Boolean hit) {
-		if (target.equals(me.id)) {
+		if (amIShoot(target) != -1) {
+			Utils.error(source.toHumanID() + " shot " + me.id.toHumanID());
 			me.setlastShooter(source);
 		}
 		
@@ -79,17 +80,17 @@ public class Game {
 			playerHitMap.put(source, playerHit);
 			
 			if(playerHit >= numberShips && source.compareTo(me.id) != 0 ) {
-				System.out.println("Player " + source.toHumanID() + " is dead. I WOOOON!" + " ts: " + System.currentTimeMillis());
+				Utils.out("Player " + source.toHumanID() + " is dead. I WOOOON!" + " ts: " + System.currentTimeMillis());
 			}			
 		}else {
 			playerHitMap.put(source, 1);
 		}
 
-		System.out.println("---------------------------------------");
+		Utils.out("---------------------------------------");
 		for(ID id : playerHitMap.keySet()){
-			System.out.println("   Player " +id.toHumanID() + " has " + (numberShips - playerHitMap.get(id)) + " left");
+			Utils.out("   Player " +id.toHumanID() + " has " + (numberShips - playerHitMap.get(id)) + " left");
 		}
-		System.out.println("---------------------------------------");	
+		Utils.out("---------------------------------------");	
 	}
 	
 	public ID shootAtShip(Set<Node> fingertable) {

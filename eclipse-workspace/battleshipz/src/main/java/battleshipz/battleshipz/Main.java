@@ -39,23 +39,23 @@ public class Main {
 			joinCord(nodeURL, strBootrapURL, chord);
 		}
 
-		System.out.println("Hit enter to initialize game state");
+		Utils.out("Hit enter to initialize game state");
 		System.in.read();
 		
 		Game game = Game.createGame(chord, iNumShips, iNumFields);
 		callback.setGame(game);
-		System.out.println("My ID is: " + chord.getID().toHumanID());
+		Utils.out("My ID is: " + chord.getID().toHumanID());
 		
-		System.out.println("Hit enter to start the game");
+		Utils.out("Hit enter to start the game");
 		System.in.read();
 		
 		if(doIStart(chord)) {
-			System.out.println("I am starting.");
+			Utils.out("I am starting.");
 			ID target = game.shootAtShip(new HashSet<Node>(chord.getFingerTable()));
 			for(Node n : chord.getFingerTable()) {
-				System.out.println("  " + n.getNodeID().toHumanID() + " " + n.getNodeURL());
+				Utils.out("  " + n.getNodeID().toHumanID() + " " + n.getNodeURL());
 			}
-			System.out.println("shooting at target: " + target.toHumanID() );
+			Utils.out("shooting at target: " + target.toHumanID() );
 			
 			chord.retrieveAsync(target);
 		}
@@ -81,7 +81,6 @@ public class Main {
 		URL bootstrapURL = fetchURL(strBootstrapURL);
 		URL nodeURL = fetchURL(strNodeUrl);
 		try {
-			System.out.println(bootstrapURL);
 			chord.setURL(nodeURL);
 			chord.join(bootstrapURL);
 		} catch (ServiceException e) {

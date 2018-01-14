@@ -6,6 +6,9 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Utils {
+	
+	private static final boolean DEBUG=false;
+	
 	public static Properties loadLocalProperties(String path) {
 		Properties prop = new Properties();
 		InputStream input = null;
@@ -25,5 +28,17 @@ public class Utils {
 			}
 		}
 		return prop;
+	}
+	
+	public static void out(String msg) {
+		if (DEBUG) {
+			System.out.println(msg);
+		}
+	}
+	
+	public static void error(String msg) {
+		System.out.println("--------- Error -----------");
+		System.out.println(msg);
+		System.out.println("---------------------------");
 	}
 }

@@ -36,10 +36,10 @@ public class ChordNotifyCallbackImpl implements NotifyCallback {
 			
 			if (game.shipsLeft()) {
 				final ID id2shoot = game.shootAtShip(new HashSet<Node>(chord.getFingerTable()));
-				System.out.println("source " + chord.getID().toHumanID() + " shooting " + target.toHumanID());
+				Utils.out("source " + chord.getID().toHumanID() + " shooting " + target.toHumanID());
 				chord.retrieveAsync(id2shoot);
-			}else {
-				System.out.println("I am in nirvana ciao..");
+			} else {
+				Utils.out("I am in nirvana ciao..");
 			}
 		}
 	}

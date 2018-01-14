@@ -4,13 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import de.uniba.wiai.lspi.chord.data.ID;
 
 public class Pirate {
-	private static Logger log = Logger.getLogger(Pirate.class);
-	
 	public ID id;
 	public ID startField;
 	public ID[] sectors;
@@ -51,7 +47,7 @@ public class Pirate {
 	    }
 	    
 	    // Rarely happens
-	    log.info("pirate is not inIntervall");
+	    Utils.error("pirate is not inIntervall");
 		return -1;
 	}
 	

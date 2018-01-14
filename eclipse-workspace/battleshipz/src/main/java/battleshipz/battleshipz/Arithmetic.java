@@ -68,7 +68,9 @@ public class Arithmetic {
 				return i;
 			}
 		}
-		System.out.println("is in sector");
+		
+		Utils.error("Is not in sector");
+		
 		return -1;
 	}
 }
