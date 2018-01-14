@@ -70,7 +70,7 @@ public class Game {
 			me.setlastShooter(source);
 		}
 		
-		fieldHitMap.add(source);
+		fieldHitMap.add(target);
 		if(!hit) {
 			return;
 		}
@@ -127,9 +127,10 @@ public class Game {
 		}	
 		
 		// "minimum_ships", "shoot_back", "random"
-		return new Strategy(
-				numberShips, me, playerSectors, sectorsToShoot, playerHitMap, fieldHitMap
-		).byStrategy("random"); 
+		return Strategy.shootAtRandomField(sectorsToShoot);
+//		return new Strategy(
+//				numberShips, me, playerSectors, sectorsToShoot, playerHitMap, fieldHitMap
+//		).byStrategy("random"); 
 	}
 
 }

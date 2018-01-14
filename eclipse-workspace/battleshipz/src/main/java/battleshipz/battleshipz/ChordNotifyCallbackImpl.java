@@ -26,9 +26,14 @@ public class ChordNotifyCallbackImpl implements NotifyCallback {
 	}
 
 	public void retrieved(ID target) {
+
+		Utils.out("(Retrieved) I, " + game.me.id.toHumanID() + " retreived a target " + target.toHumanID()  + 
+				" and I was hit: " );
 		// shot at us
 		synchronized (this) {
+
 			int shot = game.amIShoot(target);
+			System.out.println("    " + shot);
 			
 			if(shot != -1) {
 				chord.broadcast(target, shot == 1);
@@ -36,7 +41,7 @@ public class ChordNotifyCallbackImpl implements NotifyCallback {
 			
 			if (game.shipsLeft()) {
 				final ID id2shoot = game.shootAtShip(new HashSet<Node>(chord.getFingerTable()));
-				Utils.out("source " + chord.getID().toHumanID() + " shooting " + target.toHumanID());
+				Utils.out("Now I, " + chord.getID().toHumanID() + " am shooting at " + id2shoot.toHumanID());
 				chord.retrieveAsync(id2shoot);
 			} else {
 				Utils.out("I am in nirvana ciao..");
@@ -45,7 +50,10 @@ public class ChordNotifyCallbackImpl implements NotifyCallback {
 	}
 
 	public void broadcast(ID source, ID target, Boolean hit) {
+		Utils.out("(Broadcast) I, " + game.me.id.toHumanID() + " retreived a with target " + target.toHumanID()  + 
+				" from " + source.toHumanID() + " and it was an hit: " + hit);
 		synchronized (this) {
+			
 			game.broadcast(source, target, hit);
 		}
 	}

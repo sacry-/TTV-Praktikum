@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class Utils {
 	
-	private static final boolean DEBUG=false;
+	private static final boolean DEBUG=true;
 	
 	public static Properties loadLocalProperties(String path) {
 		Properties prop = new Properties();

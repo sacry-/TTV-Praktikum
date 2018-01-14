@@ -103,4 +103,12 @@ public class Strategy {
 		ID targetField = possibleSectors.get(randIndex);
 		return Arithmetic.mod(Arithmetic.add(targetField, 10), Arithmetic.LARGEST_ID);
 	}
+	
+	public static ID shootAtRandomField(List<ID> possibleSectors) {
+		Random rnd = new Random();
+		int randIndex = rnd.nextInt(possibleSectors.size());
+		ID targetField = possibleSectors.get(randIndex);
+		return Arithmetic.mod(Arithmetic.add(targetField, 10), Arithmetic.LARGEST_ID);
+	}
+	
 }
