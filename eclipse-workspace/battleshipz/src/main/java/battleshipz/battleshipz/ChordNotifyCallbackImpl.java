@@ -2,8 +2,6 @@ package battleshipz.battleshipz;
 
 import java.util.HashSet;
 
-import org.apache.log4j.Logger;
-
 import de.uniba.wiai.lspi.chord.com.Node;
 import de.uniba.wiai.lspi.chord.data.ID;
 import de.uniba.wiai.lspi.chord.service.NotifyCallback;
@@ -37,11 +35,11 @@ public class ChordNotifyCallbackImpl implements NotifyCallback {
 			}
 			
 			if (game.shipsLeft()) {
-				
 				final ID id2shoot = game.shootAtShip(new HashSet<Node>(chord.getFingerTable()));
+				System.out.println("source " + chord.getID().toHumanID() + " shooting " + target.toHumanID());
 				chord.retrieveAsync(id2shoot);
 			}else {
-				System.out.println("Iam in nirvana ciao..");
+				System.out.println("I am in nirvana ciao..");
 			}
 		}
 	}

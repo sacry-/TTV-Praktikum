@@ -15,6 +15,7 @@ public class Pirate {
 	public ID startField;
 	public ID[] sectors;
 	public List<Boolean> shipPlacement = new ArrayList<Boolean>();
+	public ID lastShooter;
 	
 	
 	public Pirate(ID id, ID[] sectors, int numShips, int numSectors) {
@@ -57,5 +58,12 @@ public class Pirate {
 	public boolean shipsLeft() {
 		return shipPlacement.contains(true);
 	}
-
+	
+	public void setlastShooter(ID lastShooter) {
+		this.lastShooter = lastShooter;
+	}
+	
+	public ID getlastShooter() {
+		return this.lastShooter;
+	}
 }

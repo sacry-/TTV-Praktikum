@@ -2,14 +2,11 @@ package battleshipz.battleshipz;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.log4j.Logger;
 
 import de.uniba.wiai.lspi.chord.com.Node;
 import de.uniba.wiai.lspi.chord.data.ID;
@@ -68,6 +65,10 @@ public class Game {
 	}
 	
 	public void broadcast(ID source, ID target, Boolean hit) {
+		if (target.equals(me.id)) {
+			me.setlastShooter(source);
+		}
+		
 		fieldHitMap.add(source);
 		if(!hit) {
 			return;
@@ -78,7 +79,7 @@ public class Game {
 			playerHitMap.put(source, playerHit);
 			
 			if(playerHit >= numberShips && source.compareTo(me.id) != 0 ) {
-				System.out.println("Player " + source.toHumanID() + " is dead. I WOOOON!" + " " + new Date());
+				System.out.println("Player " + source.toHumanID() + " is dead. I WOOOON!" + " ts: " + System.currentTimeMillis());
 			}			
 		}else {
 			playerHitMap.put(source, 1);
@@ -117,14 +118,17 @@ public class Game {
 				if (index != -1) {
 					sectorsToShoot.remove(sectors[index]);
 				}
-
 			}
 		}
 		
 		for (ID id : me.sectors) {
 			sectorsToShoot.remove(id);
 		}	
-		return Arithmetic.selectShootID(sectorsToShoot);
+		
+		// "minimum_ships", "shoot_back", "random"
+		return new Strategy(
+				numberShips, me, playerSectors, sectorsToShoot, playerHitMap, fieldHitMap
+		).byStrategy("random"); 
 	}
 
 }

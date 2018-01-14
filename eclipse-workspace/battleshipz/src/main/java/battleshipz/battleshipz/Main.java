@@ -5,9 +5,6 @@ import java.net.MalformedURLException;
 import java.util.HashSet;
 import java.util.Properties;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
-
 import de.uniba.wiai.lspi.chord.com.Node;
 import de.uniba.wiai.lspi.chord.data.ID;
 import de.uniba.wiai.lspi.chord.data.URL;
@@ -18,9 +15,6 @@ import de.uniba.wiai.lspi.chord.service.impl.ChordImpl;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		
-		BasicConfigurator.configure();
-		
 		PropertiesLoader.loadPropertyFile();
 
 		Properties prop = Utils.loadLocalProperties("resources/battleshipz.properties");

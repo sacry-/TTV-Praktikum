@@ -1,8 +1,6 @@
 package battleshipz.battleshipz;
 
 import java.math.BigInteger;
-import java.util.List;
-import java.util.Random;
 
 import de.uniba.wiai.lspi.chord.data.ID;
 
@@ -12,23 +10,23 @@ public class Arithmetic {
 
 	public static final ID LARGEST_ID = ID.valueOf(MAX_ID);
 
-	private static ID add(ID id1, ID id2) {
+	public static ID add(ID id1, ID id2) {
 		return ID.valueOf(id1.toBigInteger().add(id2.toBigInteger()));
 	}
 
-	private static ID add(ID id1, long value) {
+	public static ID add(ID id1, long value) {
 		return ID.valueOf(id1.toBigInteger().add(BigInteger.valueOf(value)));
 	}
 
-	private static ID subtract(ID id1, ID value) {
+	public static ID subtract(ID id1, ID value) {
 		return ID.valueOf(id1.toBigInteger().subtract(value.toBigInteger()));
 	}
 
-	private static ID multiply(ID id1, long value) {
+	public static ID multiply(ID id1, long value) {
 		return ID.valueOf(id1.toBigInteger().multiply(BigInteger.valueOf(value)));
 	}
 
-	private static ID divide(ID id1, long value) {
+	public static ID divide(ID id1, long value) {
 
 		return ID.valueOf(id1.toBigInteger().divide(BigInteger.valueOf(value)));
 	}
@@ -73,12 +71,4 @@ public class Arithmetic {
 		System.out.println("is in sector");
 		return -1;
 	}
-
-	public static ID selectShootID(List<ID> possibleTargets) {
-		Random rnd = new Random();
-		int randIndex = rnd.nextInt(possibleTargets.size());
-		ID target = possibleTargets.get(randIndex);
-		return mod(add(target, 10), LARGEST_ID);
-	}
-
 }
